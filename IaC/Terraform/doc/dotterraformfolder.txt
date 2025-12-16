@@ -1,0 +1,15 @@
+.
+├── .terraform
+│   └── providers
+│       └── registry.terraform.io
+│           └── hashicorp
+│               └── azurerm
+│                   └── 4.56.0
+│                       └── linux_amd64
+│                           ├── LICENSE.txt
+│                           └── terraform-provider-azurerm_v4.56.0_x5
+├── .terraform.lock.hcl
+├── create-rsrc-grp.tf
+└── dotterraformfolder.txt
+
+7 directories, 5 files
