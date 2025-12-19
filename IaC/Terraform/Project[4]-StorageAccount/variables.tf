@@ -10,12 +10,6 @@ variable "location" {
         description = "Location name"
 }
 
-variable "storage_name" {
-	default     = "tfelsonmusa"
-        type        = string
-        description = "Storage Account Name"
-}
-
 variable "environment" {
 	default     = "storage_account"
         type        = string

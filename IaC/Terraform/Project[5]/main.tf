@@ -12,6 +12,8 @@ terraform {
       name = "project-terra"
     }
   }
+  
+  backend "remote" {}
 
 }
 

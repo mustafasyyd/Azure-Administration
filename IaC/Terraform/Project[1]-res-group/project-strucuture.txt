@@ -1,0 +1,10 @@
+.
+├── main.tf
+├── project-strucuture.txt
+├── resource-group
+│   ├── main.tf
+│   ├── output.tf
+│   └── variables.tf
+└── variables.tf
+
+1 directory, 6 files
