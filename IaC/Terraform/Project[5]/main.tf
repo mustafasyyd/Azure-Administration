@@ -6,14 +6,13 @@ terraform {
     }
   }
 
-  cloud {
-    organization = "esson_terra"
-    workspaces {
-      name = "project-terra"
-    }
+  backend "azurerm" {
+    resource_group_name  = "modules-rg"
+    storage_account_name = "remoteessonsa"
+    container_name       = "esssonc1"
+    use_azuread_auth     = true  
+
   }
-  
-  backend "remote" {}
 
 }
 
@@ -23,22 +22,8 @@ provider "azurerm" {
 
 
 # Create a resource group
-module "rg" {
-  source        =   "./modules/rg"
-  rg_name       =   var.rg_name
-  location      =   var.location
+resource "azurerm_resource_group" "rg" {
+  rg_name       =   "remote-rg"
+  location      =   "uk south"
 }
 
-# Create a virtual network
-
-module "vnet" {
-  source = "./modules/vnet"
-  vnet_name          =  var.vnet_name
-  rg_name            =   var.rg_name
-  location           =   var.location
-  addr_space	     =  var.addr_space
-  snet01_name        =  var.snet01_name
-  snet02_name        =  var.snet01_name
-  add_prefix_01      =  var.add_prefix_01
-  add_prefix_02      =  var.add_prefix_02
-}
