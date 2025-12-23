@@ -1,0 +1,47 @@
+# High-Level Architecture
+
+Resources created:
+
+Resource Group
+
+Virtual Network
+
+Web Subnet
+
+DB Subnet
+
+2 Virtual Machines
+
+Web VM (public access optional)
+
+DB VM (private only)
+
+Private DNS Zone (VM name resolution)
+
+Storage Account
+
+File Share (Service Endpoint enabled)
+
+Blob Container (Private Endpoint)
+
+Azure Key Vault
+
+HCP Terraform for remote state
+
+-------------------------
+
+terraform-azure-infra/
+│
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── providers.tf
+│
+├── modules/
+│   ├── resource_group/
+│   ├── network/
+│   ├── compute/
+│   ├── storage/
+│   └── keyvault/
+│
+└── terraform.tfvars
