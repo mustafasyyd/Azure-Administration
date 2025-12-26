@@ -1,0 +1,46 @@
+trigger:
+- dev
+
+variables:
+  buildConfiguration: 'Release'
+  azureSubscription: 'webapp-ser_conn'
+  webAppName: 'web app'
+
+pool:
+ name: ubuntu-agent
+
+steps:
+
+# Install .NET SDK (choose the version your project uses)
+- task: UseDotNet@2
+  inputs:
+    packageType: sdk
+    version: 6.0.x   # or 7.0.x / 8.0.x (recommended)
+
+# Restore
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: 'MyAzureApp/MyAzureApp.csproj'
+
+# Build
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'MyAzureApp/MyAzureApp.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+# Publish
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: true
+
+# Deploy to Azure Web App (Linux)
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: $(azureSubscription)
+    appName: $(webAppName)
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
