@@ -1,0 +1,59 @@
+trigger:
+- main
+
+pool:
+  name: ubuntu-agent
+
+variables:
+ webAppName: 'e-sonnwebapp'
+ azureServiceConnection: 'mid-service_connection-webapp'
+ buildConfiguration: 'Release'
+ publishFolder: '$(Build.ArtifactStagingDirectory)/publish'
+ projectName: 'pipelineWbApp' # Name of the new project                                  
+
+
+steps:
+- script: echo "starting pipeline:- restore, build, publish, deploy"
+
+# Create a new ASP.NET Core Web App
+- script: |
+    mkdir $(Build.SourcesDirectory)/$(projectName)
+    cd $(Build.SourcesDirectory)/$(projectName)
+    dotnet new webapp -n $(projectName)
+  displayName: 'Create .NET Web App Project'
+
+# Restore dependencies
+- task: DotNetCoreCLI@2
+  displayName: 'Restore NuGet Packages'
+  inputs:
+    command: 'restore'
+    projects: '$(Build.SourcesDirectory)/$(projectName)/$(projectName).csproj'
+
+# Build the project
+- task: DotNetCoreCLI@2
+  displayName: 'Build Project'
+  inputs:
+    command: 'build'
+    projects: '$(Build.SourcesDirectory)/$(projectName)/$(projectName).csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+# Publish the project to a folder
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Project'
+  inputs:
+    command: 'publish'
+    projects: '$(Build.SourcesDirectory)/$(projectName)/$(projectName).csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(publishFolder)'
+    zipAfterPublish: true
+
+# Deploy to Azure Web App
+- task: AzureWebApp@1
+  displayName: 'Deploy to Azure Web App'
+  inputs:
+    azureSubscription: '$(azureServiceConnection)'
+    appType: 'webApp'
+    appName: '$(webAppName)'
+    package: '$(publishFolder)/**/*.zip'
+
+# Print completion message
+- script: echo "Pipeline finished successfully!"
