@@ -1,0 +1,7 @@
+/home/mustafasayed/MyAzureApp/publish/MyAzureApp
+/home/mustafasayed/MyAzureApp/publish/appsettings.Development.json
+/home/mustafasayed/MyAzureApp/publish/appsettings.json
+/home/mustafasayed/MyAzureApp/publish/MyAzureApp.dll
+/home/mustafasayed/MyAzureApp/publish/MyAzureApp.deps.json
+/home/mustafasayed/MyAzureApp/publish/MyAzureApp.runtimeconfig.json
+/home/mustafasayed/MyAzureApp/publish/MyAzureApp.pdb
